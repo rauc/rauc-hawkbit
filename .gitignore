@@ -1,0 +1,16 @@
+*.pyc
+*__pycache__
+.*.swp
+.cache
+/MANIFEST
+.tox
+/.#tox.ini
+/.eggs/README.txt
+*.egg
+*.egg-info
+/venv*
+/build
+/doc/.build
+/doc/modules
+/.coverage
+/dist
