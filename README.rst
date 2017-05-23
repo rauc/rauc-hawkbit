@@ -1,6 +1,8 @@
 RAUC hawkBit Client
 ===================
 
+|license| |build-status| |coverage-status| |docs-status|
+
 The RAUC hawkBit client is a simple python-based application and library that
 runs on your target and operates as an interface between the
 `RAUC <https://github.com/rauc/rauc>`_ D-Bus API
@@ -82,3 +84,19 @@ Copyright
 | You should have received a copy of the GNU Lesser General Public
 | License along with this library; if not, write to the Free Software
 | Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+.. |license| image:: https://img.shields.io/badge/license-LGPLv2.1-blue.svg
+    :alt: LGPLv2.1
+    :target: https://raw.githubusercontent.com/ejoerns/rauc-hawkbit/master/COPYING
+
+.. |build-status| image:: https://img.shields.io/travis/ejoerns/rauc-hawkbit/master.svg?style=flat
+    :alt: build status
+    :target: https://travis-ci.org/ejoerns/rauc-hawkbit
+
+.. |coverage-status| image:: https://codecov.io/gh/ejoerns/rauc-hawkbit/branch/master/graph/badge.svg
+    :alt: coverage status
+    :target: https://codecov.io/gh/ejoerns/rauc-hawkbit
+
+.. |docs-status| image:: https://readthedocs.org/projects/rauc-hawkbit/badge/?version=latest
+    :alt: documentation status
+    :target: https://rauc-hawkbit.readthedocs.io/en/latest/?badge=latest
