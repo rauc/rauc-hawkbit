@@ -4,8 +4,10 @@ python:
   - "3.5"
   - "3.6"
 install:
+  - pip install --upgrade pytest pytest-mock pytest-cov codecov
   - pip install tox-travis
   - pip install sphinx sphinx_rtd_theme
+  - pip install aiohttp
 script:
   - tox
   - python setup.py build_sphinx
