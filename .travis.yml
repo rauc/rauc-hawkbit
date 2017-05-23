@@ -4,6 +4,7 @@ python:
   - "3.6"
 install:
   - pip install tox-travis
+  - pip install sphinx sphinx_rtd_theme
 script:
   - tox
   - python setup.py build_sphinx
