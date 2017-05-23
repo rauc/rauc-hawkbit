@@ -5,6 +5,7 @@ import asyncio
 import aiohttp
 import gbulb
 from configparser import ConfigParser
+from pathlib import Path
 import os
 import logging
 import argparse
@@ -34,10 +35,16 @@ def main():
 
     args = parser.parse_args()
 
-    if args.config:
-        config.read_file(open(args.config, 'r'))
-    else:
-        config.read_file(os.path.join(os.path.dirname(__file__), 'config.cfg'))
+    if not args.config:
+        args.config = 'config.cfg'
+
+    cfg_path = Path(args.config)
+
+    if not cfg_path.is_file():
+        print("Cannot read config file '{}'".format(cfg_path.name))
+        exit(1)
+
+    config.read_file(cfg_path.open())
 
     try:
         LOG_LEVEL = {
