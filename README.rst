@@ -87,15 +87,15 @@ Copyright
 
 .. |license| image:: https://img.shields.io/badge/license-LGPLv2.1-blue.svg
     :alt: LGPLv2.1
-    :target: https://raw.githubusercontent.com/ejoerns/rauc-hawkbit/master/COPYING
+    :target: https://raw.githubusercontent.com/rauc/rauc-hawkbit/master/COPYING
 
-.. |build-status| image:: https://img.shields.io/travis/ejoerns/rauc-hawkbit/master.svg?style=flat
+.. |build-status| image:: https://img.shields.io/travis/rauc/rauc-hawkbit/master.svg?style=flat
     :alt: build status
-    :target: https://travis-ci.org/ejoerns/rauc-hawkbit
+    :target: https://travis-ci.org/rauc/rauc-hawkbit
 
-.. |coverage-status| image:: https://codecov.io/gh/ejoerns/rauc-hawkbit/branch/master/graph/badge.svg
+.. |coverage-status| image:: https://codecov.io/gh/rauc/rauc-hawkbit/branch/master/graph/badge.svg
     :alt: coverage status
-    :target: https://codecov.io/gh/ejoerns/rauc-hawkbit
+    :target: https://codecov.io/gh/rauc/rauc-hawkbit
 
 .. |docs-status| image:: https://readthedocs.org/projects/rauc-hawkbit/badge/?version=latest
     :alt: documentation status
