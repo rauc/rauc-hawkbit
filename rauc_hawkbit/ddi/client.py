@@ -163,7 +163,7 @@ class DDIClient(object):
                     **kwargs))
 
         self.logger.debug('GET {}'.format(url))
-        with aiohttp.Timeout(self.timeout):
+        with aiohttp.Timeout(self.timeout, loop=self.session.loop):
             async with self.session.get(url, headers=get_headers,
                                         params=query_params) as resp:
                 await self.check_http_status(resp)
@@ -225,7 +225,7 @@ class DDIClient(object):
         hash_md5 = hashlib.md5()
 
         self.logger.debug('GET binary {}'.format(url))
-        with aiohttp.Timeout(timeout):
+        with aiohttp.Timeout(timeout, loop=self.session.loop):
             async with self.session.get(url, headers=get_bin_headers) as resp:
                 await self.check_http_status(resp)
                 with open(dl_location, 'wb') as fd:
