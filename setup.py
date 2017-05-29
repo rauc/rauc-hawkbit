@@ -12,7 +12,7 @@ setup(
       use_scm_version=True,
       url='https://github.com/rauc/rauc-hawkbit',
       install_requires=[
-          'aiohttp',
+          'aiohttp>=2.0.0',
           'gbulb==0.2'
       ],
       packages=find_packages(),
