@@ -13,7 +13,7 @@ setup(
       url='https://github.com/rauc/rauc-hawkbit',
       install_requires=[
           'aiohttp>=2.0.0',
-          'gbulb==0.2'
+          'gbulb>=0.5'
       ],
       packages=find_packages(),
       include_package_data=True,
