@@ -243,6 +243,9 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
         except AttributeError:
             static_api_url = True
 
+        if self.step_callback:
+            self.step_callback(0, "Downloading bundle...")
+
         # try several times
         for dl_try in range(tries):
             if not static_api_url:
