@@ -16,6 +16,9 @@ from rauc_hawkbit.rauc_dbus_ddi_client import RaucDBUSDDIClient
 def result_callback(result):
     print("result_callback: {}\n".format(result))
 
+def step_callback(percentage, message):
+    print("Progress: {:>3}% - {}".format(percentage, message))
+
 def main():
     # config parsing
     config = ConfigParser()
@@ -81,7 +84,7 @@ def main():
     with aiohttp.ClientSession(loop=loop) as session:
         client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
                                    AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
-                                   result_callback)
+                                   result_callback, step_callback)
         loop.run_until_complete(loop.create_task(
             client.start_polling()))
 
