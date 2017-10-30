@@ -14,7 +14,7 @@ from rauc_hawkbit.rauc_dbus_ddi_client import RaucDBUSDDIClient
 
 
 def result_callback(result):
-    print("result_callback: {}\n".format(result))
+    print("Result:   {}".format('SUCCESSFUL' if result == 0 else 'FAILED' ))
 
 def step_callback(percentage, message):
     print("Progress: {:>3}% - {}".format(percentage, message))
