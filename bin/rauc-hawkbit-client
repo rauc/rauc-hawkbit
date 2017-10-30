@@ -19,7 +19,7 @@ def result_callback(result):
 def step_callback(percentage, message):
     print("Progress: {:>3}% - {}".format(percentage, message))
 
-def main():
+async def main():
     # config parsing
     config = ConfigParser()
     parser = argparse.ArgumentParser()
@@ -78,17 +78,14 @@ def main():
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
-    # create event loop, open aiohttp client session and start polling
-    gbulb.install()
-    loop = asyncio.get_event_loop()
-    with aiohttp.ClientSession(loop=loop) as session:
+    async with aiohttp.ClientSession() as session:
         client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
                                    AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
                                    result_callback, step_callback)
-        loop.run_until_complete(loop.create_task(
-            client.start_polling()))
-
-    loop.run_forever()
+        await client.start_polling()
 
 if __name__ == '__main__':
-    main()
+    # create event loop, open aiohttp client session and start polling
+    gbulb.install()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
