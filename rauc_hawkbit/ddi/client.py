@@ -163,7 +163,7 @@ class DDIClient(object):
                     **kwargs))
 
         self.logger.debug('GET {}'.format(url))
-        with aiohttp.Timeout(self.timeout, loop=self.session.loop):
+        with aiohttp.Timeout(self.timeout):
             async with self.session.get(url, headers=get_headers,
                                         params=query_params) as resp:
                 await self.check_http_status(resp)

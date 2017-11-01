@@ -25,7 +25,7 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
     interface.
     """
     def __init__(self, session, host, ssl, tenant_id, target_name, auth_token,
-                 attributes, bundle_dl_location, result_callback, lock_keeper=None):
+                 attributes, bundle_dl_location, result_callback, step_callback=None, lock_keeper=None):
         super(RaucDBUSDDIClient, self).__init__()
 
         self.attributes = attributes
@@ -41,6 +41,7 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
         self.bundle_dl_location = bundle_dl_location
         self.lock_keeper = lock_keeper
         self.result_callback = result_callback
+        self.step_callback = step_callback
 
         # DBUS proxy
         self.rauc = self.new_proxy('de.pengutronix.rauc.Installer', '/')
@@ -95,6 +96,9 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
         percentage, description, nesting_depth = parameters
         self.logger.info('Update progress: {}% {}'.format(percentage,
                                                           description))
+
+        if self.step_callback:
+            self.step_callback(percentage, description)
 
         # send feedback to HawkBit
         status_execution = DeploymentStatusExecution.proceeding
@@ -238,6 +242,9 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
             static_api_url = False
         except AttributeError:
             static_api_url = True
+
+        if self.step_callback:
+            self.step_callback(0, "Downloading bundle...")
 
         # try several times
         for dl_try in range(tries):

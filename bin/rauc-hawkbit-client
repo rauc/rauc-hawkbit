@@ -14,9 +14,12 @@ from rauc_hawkbit.rauc_dbus_ddi_client import RaucDBUSDDIClient
 
 
 def result_callback(result):
-    print("result_callback: {}\n".format(result))
+    print("Result:   {}".format('SUCCESSFUL' if result == 0 else 'FAILED' ))
 
-def main():
+def step_callback(percentage, message):
+    print("Progress: {:>3}% - {}".format(percentage, message))
+
+async def main():
     # config parsing
     config = ConfigParser()
     parser = argparse.ArgumentParser()
@@ -75,17 +78,14 @@ def main():
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
+    async with aiohttp.ClientSession() as session:
+        client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
+                                   AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
+                                   result_callback, step_callback)
+        await client.start_polling()
+
+if __name__ == '__main__':
     # create event loop, open aiohttp client session and start polling
     gbulb.install()
     loop = asyncio.get_event_loop()
-    with aiohttp.ClientSession(loop=loop) as session:
-        client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
-                                   AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
-                                   result_callback)
-        loop.run_until_complete(loop.create_task(
-            client.start_polling()))
-
-    loop.run_forever()
-
-if __name__ == '__main__':
-    main()
+    loop.run_until_complete(main())
