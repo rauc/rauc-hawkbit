@@ -3,10 +3,41 @@ RAUC hawkBit Client
 
 |license| |build-status| |coverage-status| |docs-status|
 
-The RAUC hawkBit client is a simple python-based application and library that
-runs on your target and operates as an interface between the
+The RAUC hawkBit client is a simple python-based library and example
+application that runs on your target and operates as an interface between the
 `RAUC <https://github.com/rauc/rauc>`_ D-Bus API
 and the `hawkBit <https://github.com/eclipse/hawkbit>`_ DDI API.
+
+Quickstart
+----------
+
+Despite the rauc-hawkbit client is primarily meant to be used as a library,
+it also provides a simple example application that allows you to instantly
+start with a small configuration file.
+
+To quickly build and start a hawkBit server, follow
+`this <https://github.com/eclipse/hawkbit#build-and-start-hawkbit-update-server>`_
+instruction.
+
+Then setup your configuration file:
+
+.. code-block:: cfg
+
+  [client]
+  hawkbit_server = 127.0.0.1:8080
+  ssl = false
+  ca_file =
+  tenant_id = DEFAULT
+  target_name = test-target
+  auth_token = bhVahL1Il1shie2aj2poojeChee6ahShu
+  mac_address = 12:34:56:78:9A:BC
+  bundle_download_location = /tmp/bundle.raucb
+
+Finally start the client application:
+
+.. code-block:: sh
+
+  ./rauc-hawkbit-client -c config.cfg
 
 Documentation
 -------------
@@ -23,28 +54,40 @@ Work on the RAUC hawkBit client started at `Pengutronix
 and for demonstration purposes. In May 2017 the decision was made to restructure
 and clean up the code and publish it as Open Source software.
 
-Quickstart
-----------
+Example Usage
+-------------
 
-Setup a configuration file
+The ``RaucDBUSDDIClient`` class from the ``rauc_hawkbit`` module allows you to
+simply setup an interface between RAUC and hawkBit.
 
-.. code-block:: cfg
+.. code-block:: python
 
-  [client]
-  hawkbit_server = 127.0.0.1:8080
-  ssl = false
-  ca_file =
-  tenant_id = DEFAULT
-  target_name = test-target
-  auth_token = bhVahL1Il1shie2aj2poojeChee6ahShu
-  mac_address = 12:34:56:78:9A:BC
-  bundle_download_location = /tmp/bundle.raucb
+  from rauc_hawkbit.rauc_dbus_ddi_client import RaucDBUSDDIClient
 
-Start the client application
+  ...
 
-.. code-block:: sh
+  async with aiohttp.ClientSession() as session:
+      client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
+                                 AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
+                                 result_callback, step_callback)
+      await client.start_polling()
 
-  ./rauc-hawkbit-client -c config.cfg
+If you only want use the hawkBit interface from your python project, you can
+use the DDIClient class.
+
+.. code-block:: python
+
+   from rauc_hawkbit.ddi.client import DDIClient
+
+   ...
+
+   ddi = DDIClient(session, host, ssl, auth_token, tenant_id, target_name)
+   base = await self.ddi()
+
+   if '_links' in base:
+       if 'configData' in base['_links']:
+           await self.identify(base)
+
 
 Debugging
 ---------
