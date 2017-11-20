@@ -62,8 +62,6 @@ async def main():
 
     HOST = config.get('client', 'hawkbit_server')
     SSL = config.getboolean('client', 'ssl')
-    # not used here
-    CA_FILE = config.get('client', 'ca_file')
     TENANT_ID = config.get('client', 'tenant_id')
     TARGET_NAME = config.get('client', 'target_name')
     AUTH_TOKEN = config.get('client', 'auth_token')

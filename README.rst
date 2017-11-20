@@ -26,7 +26,6 @@ Then setup your configuration file:
   [client]
   hawkbit_server = 127.0.0.1:8080
   ssl = false
-  ca_file =
   tenant_id = DEFAULT
   target_name = test-target
   auth_token = bhVahL1Il1shie2aj2poojeChee6ahShu
