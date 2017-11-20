@@ -11,6 +11,7 @@ setup(
       license='LGPL-2.1',
       use_scm_version=True,
       url='https://github.com/rauc/rauc-hawkbit',
+      setup_requires=['setuptools_scm'],
       install_requires=[
           'aiohttp>=2.0.0',
           'gbulb>=0.5'
