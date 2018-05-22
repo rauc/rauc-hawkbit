@@ -209,8 +209,15 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
             await self.ddi.deploymentBase[action_id].feedback(
                     status_execution, status_result, [msg])
             raise APIError(msg)
+
+        # prefer https ('download') over http ('download-http')
+        # HawkBit provides either only https, only http or both
+        if 'download' in artifact['_links']:
+            download_url = artifact['_links']['download']['href']
+        else:
+            download_url = artifact['_links']['download-http']['href']
+
         # download artifact, check md5 and report feedback
-        download_url = artifact['_links']['download-http']['href']
         md5_hash = artifact['hashes']['md5']
         self.logger.info('Starting bundle download')
         await self.download_artifact(action_id, download_url, md5_hash)
