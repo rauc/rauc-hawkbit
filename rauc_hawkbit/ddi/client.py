@@ -2,6 +2,7 @@
 
 import aiohttp
 import aiohttp.web
+import async_timeout
 import json
 import hashlib
 import logging
@@ -163,13 +164,13 @@ class DDIClient(object):
                     **kwargs))
 
         self.logger.debug('GET {}'.format(url))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.get(url, headers=get_headers,
-                                        params=query_params) as resp:
-                await self.check_http_status(resp)
-                json = await resp.json()
-                self.logger.debug(json)
-                return json
+        async with self.session.get(url, headers=get_headers,
+                                    params=query_params,
+                                    timeout=self.timeout) as resp:
+            await self.check_http_status(resp)
+            json = await resp.json()
+            self.logger.debug(json)
+            return json
 
     async def get_binary_resource(self, api_path, dl_location,
                                   mime='application/octet-stream',
@@ -225,15 +226,15 @@ class DDIClient(object):
         hash_md5 = hashlib.md5()
 
         self.logger.debug('GET binary {}'.format(url))
-        with aiohttp.Timeout(timeout, loop=self.session.loop):
-            async with self.session.get(url, headers=get_bin_headers) as resp:
-                await self.check_http_status(resp)
-                with open(dl_location, 'wb') as fd:
-                    while True:
-                        with aiohttp.Timeout(60):
-                            chunk = await resp.content.read(chunk_size)
-                            if not chunk:
-                                break
+        async with self.session.get(url, headers=get_bin_headers,
+                                    timeout=timeout) as resp:
+            await self.check_http_status(resp)
+            with open(dl_location, 'wb') as fd:
+                while True:
+                    with async_timeout.timeout(60):
+                        chunk = await resp.content.read(chunk_size)
+                        if not chunk:
+                            break
                             fd.write(chunk)
                             hash_md5.update(chunk)
         return hash_md5.hexdigest()
@@ -259,10 +260,10 @@ class DDIClient(object):
                     controllerId=self.controller_id,
                     **kwargs))
         self.logger.debug('POST {}'.format(url))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.post(url, headers=post_headers,
-                                         data=json.dumps(data)) as resp:
-                await self.check_http_status(resp)
+        async with self.session.post(url, headers=post_headers,
+                                     data=json.dumps(data),
+                                     timeout=self.timeout) as resp:
+            await self.check_http_status(resp)
 
     async def put_resource(self, api_path, data, **kwargs):
         """
@@ -285,10 +286,10 @@ class DDIClient(object):
                     **kwargs))
         self.logger.debug('PUT {}'.format(url))
         self.logger.debug(json.dumps(data))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.put(url, headers=put_headers,
-                                        data=json.dumps(data)) as resp:
-                await self.check_http_status(resp)
+        async with self.session.put(url, headers=put_headers,
+                                    data=json.dumps(data),
+                                    timeout=self.timeout) as resp:
+            await self.check_http_status(resp)
 
     async def check_http_status(self, resp):
         """Log API error message."""
