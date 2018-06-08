@@ -3,6 +3,10 @@ sudo: false
 python:
   - "3.5"
   - "3.6"
+addons:
+  apt:
+    packages:
+      - python3-gi
 install:
   - pip install --upgrade pytest pytest-mock pytest-cov codecov
   - pip install tox-travis
