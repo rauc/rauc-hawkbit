@@ -190,6 +190,7 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
         match = re.search('/deploymentBase/(.+)\?c=(.+)$', deployment)
         action_id, resource = match.groups()
         self.logger.info('Deployment found for this target')
+        self.action_id = action_id
         # fetch deployment information
         deploy_info = await self.ddi.deploymentBase[action_id](resource)
         try:
@@ -229,7 +230,6 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
         # download successful, start install
         self.logger.info('Starting installation')
         try:
-            self.action_id = action_id
             # do not interrupt install call
             await asyncio.shield(self.install())
         except GLib.Error as e:
@@ -296,7 +296,8 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
                 if 'configData' in base['_links']:
                     await self.identify(base)
                 if 'deploymentBase' in base['_links']:
-                    await self.process_deployment(base)
+                    loop = asyncio.get_event_loop()
+                    loop.create_task(self.process_deployment(base))
                 if 'cancelAction' in base['_links']:
                     await self.cancel(base)
 
