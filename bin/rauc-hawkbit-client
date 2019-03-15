@@ -56,7 +56,7 @@ async def main():
             'error': logging.ERROR,
             'fatal': logging.FATAL,
         }[config.get('client', 'log_level').lower()]
-    except:
+    except Exception:
         LOG_LEVEL = logging.INFO
 
     HOST = config.get('client', 'hawkbit_server')
