@@ -3,10 +3,15 @@ sudo: false
 python:
   - "3.5"
   - "3.6"
+addons:
+  apt:
+    packages:
+      - python3-gi
 install:
+  - pip install --upgrade setuptools
   - pip install --upgrade pytest pytest-mock pytest-cov codecov
   - pip install tox-travis
-  - pip install sphinx sphinx_rtd_theme
+  - pip install sphinx==1.6.7 sphinx_rtd_theme
   - pip install aiohttp
 script:
   - tox
