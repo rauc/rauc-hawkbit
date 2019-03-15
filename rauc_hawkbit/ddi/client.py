@@ -137,7 +137,7 @@ class DDIClient(object):
             Expanded API URL with protocol (http/https) and host prepended
         """
         protocol = 'https' if self.ssl else 'http'
-        return '{protocol}://{host}/{api_path}'.format(
+        return '{protocol}://{host}{api_path}'.format(
             protocol=protocol, host=self.host, api_path=api_path)
 
     async def get_resource(self, api_path, query_params={}, **kwargs):
