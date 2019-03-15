@@ -6,7 +6,6 @@ import aiohttp
 import gbulb
 from configparser import ConfigParser
 from pathlib import Path
-import os
 import logging
 import argparse
 

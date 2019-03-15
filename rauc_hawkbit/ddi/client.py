@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import aiohttp
-import aiohttp.web
 import json
 import hashlib
 import logging
