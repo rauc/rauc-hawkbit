@@ -163,13 +163,12 @@ class DDIClient(object):
                     **kwargs))
 
         self.logger.debug('GET {}'.format(url))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.get(url, headers=get_headers,
-                                        params=query_params) as resp:
-                await self.check_http_status(resp)
-                json = await resp.json()
-                self.logger.debug(json)
-                return json
+        async with self.session.get(url, headers=get_headers,
+                                    params=query_params) as resp:
+            await self.check_http_status(resp)
+            json = await resp.json()
+            self.logger.debug(json)
+            return json
 
     async def get_binary_resource(self, api_path, dl_location,
                                   mime='application/octet-stream',
@@ -225,17 +224,32 @@ class DDIClient(object):
         hash_md5 = hashlib.md5()
 
         self.logger.debug('GET binary {}'.format(url))
-        with aiohttp.Timeout(timeout, loop=self.session.loop):
-            async with self.session.get(url, headers=get_bin_headers) as resp:
-                await self.check_http_status(resp)
-                with open(dl_location, 'wb') as fd:
-                    while True:
-                        with aiohttp.Timeout(60):
-                            chunk = await resp.content.read(chunk_size)
+        length = 0
+        done = False
+        with open(dl_location, 'wb') as fd:
+            while not done:
+                async with self.session.get(url, headers=get_bin_headers) as resp:
+                    await self.check_http_status(resp)
+                    while not resp.content.at_eof():
+                        try:
+                            chunk, _ = await resp.content.readchunk()
                             if not chunk:
+                                done = True
                                 break
+                            else:
+                                length += len(chunk)
                             fd.write(chunk)
                             hash_md5.update(chunk)
+                        except aiohttp.client_exceptions.ClientPayloadError as e:
+                            self.logger.debug("Connection closed by remote -- retrying to connect and resume from {} bytes".format(length))
+                            get_bin_headers['Range'] = 'bytes={}-'.format(length)
+                            break
+                        except Exception as e:
+                            raise e
+
+                    if resp.content.at_eof():
+                        done = True
+
         return hash_md5.hexdigest()
 
     async def post_resource(self, api_path, data, **kwargs):
@@ -259,10 +273,9 @@ class DDIClient(object):
                     controllerId=self.controller_id,
                     **kwargs))
         self.logger.debug('POST {}'.format(url))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.post(url, headers=post_headers,
-                                         data=json.dumps(data)) as resp:
-                await self.check_http_status(resp)
+        async with self.session.post(url, headers=post_headers,
+                                        data=json.dumps(data)) as resp:
+            await self.check_http_status(resp)
 
     async def put_resource(self, api_path, data, **kwargs):
         """
@@ -285,14 +298,13 @@ class DDIClient(object):
                     **kwargs))
         self.logger.debug('PUT {}'.format(url))
         self.logger.debug(json.dumps(data))
-        with aiohttp.Timeout(self.timeout):
-            async with self.session.put(url, headers=put_headers,
-                                        data=json.dumps(data)) as resp:
-                await self.check_http_status(resp)
+        async with self.session.put(url, headers=put_headers,
+                                    data=json.dumps(data)) as resp:
+            await self.check_http_status(resp)
 
     async def check_http_status(self, resp):
         """Log API error message."""
-        if resp.status != 200:
+        if resp.status not in [200, 206]:
             error_description = await resp.text()
             if error_description:
                 self.logger.debug('API error: {}'.format(error_description))
