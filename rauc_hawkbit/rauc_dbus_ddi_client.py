@@ -140,7 +140,7 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
             except (APIError, TimeoutError, ClientOSError, ClientResponseError) as e:
                 # log error and start all over again
                 self.logger.warning('Polling failed with a temporary error: {}'.format(e))
-            except:
+            except Exception:
                 self.logger.exception('Polling failed with an unexpected exception:')
             self.action_id = None
             self.logger.info('Retry will happen in {} seconds'.format(
