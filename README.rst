@@ -21,7 +21,7 @@ instruction.
 
 Then setup your configuration file:
 
-.. code-block:: cfg
+.. code-block:: ini
 
   [client]
   hawkbit_server = 127.0.0.1:8080
@@ -95,7 +95,7 @@ When setting the log level to 'debug' the RAUC hawkBit client will print API
 URLs and JSON payload sent and received. This can be done either by setting
 ``log_level`` from the config file
 
-.. code-block:: cfg
+.. code-block:: ini
 
   [client]
   ...
