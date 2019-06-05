@@ -131,9 +131,9 @@ Copyright
     :alt: LGPLv2.1
     :target: https://raw.githubusercontent.com/rauc/rauc-hawkbit/master/COPYING
 
-.. |build-status| image:: https://img.shields.io/travis/rauc/rauc-hawkbit/master.svg?style=flat
+.. |build-status| image:: https://img.shields.io/travis/com/rauc/rauc-hawkbit/master.svg?style=flat
     :alt: build status
-    :target: https://travis-ci.org/rauc/rauc-hawkbit
+    :target: https://travis-ci.com/rauc/rauc-hawkbit
 
 .. |coverage-status| image:: https://codecov.io/gh/rauc/rauc-hawkbit/branch/master/graph/badge.svg
     :alt: coverage status
