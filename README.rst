@@ -110,8 +110,8 @@ or by providing the ``-d`` (``--debug``) switch when calling the client.
 Copyright
 ---------
 
-| Copyright (C) 2016-2017 Pengutronix, Enrico Joerns <entwicklung@pengutronix.de>
-| Copyright (C) 2016-2017 Pengutronix, Bastian Stender <entwicklung@pengutronix.de>
+| Copyright (C) 2016-2020 Pengutronix, Enrico Joerns <entwicklung@pengutronix.de>
+| Copyright (C) 2016-2020 Pengutronix, Bastian Stender <entwicklung@pengutronix.de>
 |
 | This library is free software; you can redistribute it and/or
 | modify it under the terms of the GNU Lesser General Public
