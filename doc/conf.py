@@ -54,7 +54,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'rauc-hawkbit'
-copyright = '2016-2017 Pengutronix, Bastian Stender and Enrico Joerns'
+copyright = '2016-2020 Pengutronix, Bastian Stender and Enrico Joerns'
 author = 'Bastian Stender, Enrico Joerns'
 
 # The version info for the project you're documenting, acts as replacement for
