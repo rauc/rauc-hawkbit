@@ -1,5 +1,5 @@
-Release 0.2.0 (development)
----------------------------
+Release 0.2.0 (released Feb 20, 2020)
+-------------------------------------
 
 * Fix api_path handling to be compatible with more recent hawkBit versions
   (failed with '500: Server Error' before)
