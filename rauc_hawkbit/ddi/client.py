@@ -42,12 +42,12 @@ class DDIClient(object):
         429: 'Too many requests.'
     }
 
-    def __init__(self, session, host, ssl, auth_token, tenant_id, controller_id, timeout=10):
+    def __init__(self, session, host, ssl, auth_token, auth_token_type, tenant_id, controller_id, timeout=10):
         self.session = session
         self.host = host
         self.ssl = ssl
         self.logger = logging.getLogger('rauc_hawkbit')
-        self.headers = {'Authorization': 'TargetToken {}'.format(auth_token)}
+        self.headers = {'Authorization': auth_token_type + ' {}'.format(auth_token)}
         self.tenant = tenant_id
         self.controller_id = controller_id
         self.timeout = timeout

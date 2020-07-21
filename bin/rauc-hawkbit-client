@@ -64,6 +64,10 @@ async def main():
     TENANT_ID = config.get('client', 'tenant_id')
     TARGET_NAME = config.get('client', 'target_name')
     AUTH_TOKEN = config.get('client', 'auth_token')
+    if config.has_option('client', 'auth_token_type'):
+        AUTH_TOKEN_TYPE = config.get('client', 'auth_token_type')
+    else:
+        AUTH_TOKEN_TYPE = "TargetToken"
     ATTRIBUTES = {'MAC':config.get('client', 'mac_address')}
     BUNDLE_DL_LOCATION = config.get('client', 'bundle_download_location')
 
@@ -77,7 +81,7 @@ async def main():
 
     async with aiohttp.ClientSession() as session:
         client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
-                                   AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
+                                   AUTH_TOKEN, AUTH_TOKEN_TYPE, ATTRIBUTES, BUNDLE_DL_LOCATION,
                                    result_callback, step_callback)
         await client.start_polling()
 
