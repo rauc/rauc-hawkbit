@@ -29,6 +29,7 @@ Then setup your configuration file:
   tenant_id = DEFAULT
   target_name = test-target
   auth_token = bhVahL1Il1shie2aj2poojeChee6ahShu
+  auth_token_type = TargetToken
   mac_address = 12:34:56:78:9A:BC
   bundle_download_location = /tmp/bundle.raucb
 
@@ -67,7 +68,7 @@ simply setup an interface between RAUC and hawkBit.
 
   async with aiohttp.ClientSession() as session:
       client = RaucDBUSDDIClient(session, HOST, SSL, TENANT_ID, TARGET_NAME,
-                                 AUTH_TOKEN, ATTRIBUTES, BUNDLE_DL_LOCATION,
+                                 AUTH_TOKEN, AUTH_TOKEN_TYPE, ATTRIBUTES, BUNDLE_DL_LOCATION,
                                  result_callback, step_callback)
       await client.start_polling()
 
@@ -80,7 +81,7 @@ use the DDIClient class.
 
    ...
 
-   ddi = DDIClient(session, host, ssl, auth_token, tenant_id, target_name)
+   ddi = DDIClient(session, host, ssl, auth_token, auth_token_type, tenant_id, target_name)
    base = await self.ddi()
 
    if '_links' in base:
