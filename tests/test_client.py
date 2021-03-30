@@ -32,7 +32,7 @@ def create_app(loop):
 async def test_get_resource_valid(test_client):
     client = await test_client(create_app)
 
-    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, '/DEFAULT', 'test-target')
+    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, 'TargetToken', '/DEFAULT', 'test-target')
     resp = await ddi.get_resource('{tenant}/controller/v1/{controllerId}')
 
     assert 'config' in resp
@@ -41,7 +41,7 @@ async def test_get_resource_valid(test_client):
 async def test_get_resource_invalid_key(test_client):
     client = await test_client(create_app)
 
-    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, '/DEFAULT', 'test-target')
+    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, 'TargetToken', '/DEFAULT', 'test-target')
 
     with pytest.raises(KeyError):
         resp = await ddi.get_resource('{tenant}/controller/v1/{dummy}')
@@ -49,7 +49,7 @@ async def test_get_resource_invalid_key(test_client):
 async def test_get_resource_invalid_path(test_client):
     client = await test_client(create_app)
 
-    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, '/DEFAULT', 'test-target')
+    ddi = DDIClient(client.session, '{}:{}'.format(client.host, client.port), False, None, 'TargetToken', '/DEFAULT', 'test-target')
 
     with pytest.raises(APIError):
         resp = await ddi.get_resource('{tenant}/controller/v2')

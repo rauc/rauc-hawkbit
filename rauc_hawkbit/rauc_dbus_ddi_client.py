@@ -24,14 +24,14 @@ class RaucDBUSDDIClient(AsyncDBUSClient):
     Client broker communicating with RAUC via DBUS and HawkBit DDI HTTP
     interface.
     """
-    def __init__(self, session, host, ssl, tenant_id, target_name, auth_token,
+    def __init__(self, session, host, ssl, tenant_id, target_name, auth_token, auth_token_type,
                  attributes, bundle_dl_location, result_callback, step_callback=None, lock_keeper=None):
         super(RaucDBUSDDIClient, self).__init__()
 
         self.attributes = attributes
 
         self.logger = logging.getLogger('rauc_hawkbit')
-        self.ddi = DDIClient(session, host, ssl, auth_token, tenant_id, target_name)
+        self.ddi = DDIClient(session, host, ssl, auth_token, auth_token_type, tenant_id, target_name)
         self.action_id = None
 
         bundle_dir = os.path.dirname(bundle_dl_location)
