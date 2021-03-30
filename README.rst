@@ -3,10 +3,14 @@ RAUC hawkBit Client
 
 |license| |build-status| |coverage-status| |docs-status|
 
-The RAUC hawkBit client is a simple python-based library and example
-application that runs on your target and operates as an interface between the
+The RAUC hawkBit client is a simple python-based library and **demo
+application** that runs on your target and operates as an interface between the
 `RAUC <https://github.com/rauc/rauc>`_ D-Bus API
 and the `hawkBit <https://github.com/eclipse/hawkbit>`_ DDI API.
+
+**Important:**
+This project is not intended for production use.
+Consider using `rauc-hawkbit-updater <https://github.com/rauc/rauc-hawkbit-updater>`_ instead.
 
 Quickstart
 ----------
